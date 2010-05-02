@@ -16,9 +16,20 @@
 
 #import "IASKPSTitleValueSpecifierViewCell.h"
 #import "IASKSettingsReader.h"
+#import "IASKHelper.h"
 
 
 @implementation IASKPSTitleValueSpecifierViewCell
+
+-(void) awakeFromNib
+{
+	if (isPad()) {
+		self.backgroundColor = [UIColor colorWithRed:247.0f/255.0f
+											   green:247.0f/255.0f
+												blue:247.0f/255.0f
+											   alpha:1.0f];
+	}
+}
 
 - (void)layoutSubviews {
 	// left align the value if the title is empty

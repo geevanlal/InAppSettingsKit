@@ -16,8 +16,19 @@
 
 #import "IASKPSToggleSwitchSpecifierViewCell.h"
 #import "IASKSwitch.h"
+#import "IASKHelper.h"
 
 @implementation IASKPSToggleSwitchSpecifierViewCell
+
+-(void) awakeFromNib
+{
+	if (isPad()) {
+		self.backgroundColor = [UIColor colorWithRed:247.0f/255.0f
+											   green:247.0f/255.0f
+												blue:247.0f/255.0f
+											   alpha:1.0f];
+	}
+}
 
 @synthesize label=_label, 
             toggle=_toggle;

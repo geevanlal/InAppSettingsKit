@@ -69,7 +69,6 @@
 #define kIASKSliderBothImagesWidth            214
 #define kIASKSliderOneImageWidth              246
 
-#define kIASKTableWidth                       320
 #define kIASKSpacing                          5
 #define kIASKMinLabelWidth                    97
 #define kIASKMinValueWidth                    35

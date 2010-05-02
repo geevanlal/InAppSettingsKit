@@ -17,13 +17,26 @@
 #import "IASKPSTextFieldSpecifierViewCell.h"
 #import "IASKTextField.h"
 #import "IASKSettingsReader.h"
+#import "IASKHelper.h"
 
 @implementation IASKPSTextFieldSpecifierViewCell
+
+-(void) awakeFromNib
+{
+	if (isPad()) {
+		self.backgroundColor = [UIColor colorWithRed:247.0f/255.0f
+											   green:247.0f/255.0f
+												blue:247.0f/255.0f
+											   alpha:1.0f];
+	}
+}
 
 @synthesize label=_label,
             textField=_textField;
 
 - (void)layoutSubviews {
+	[super layoutSubviews];
+	
 	CGSize labelSize = [_label sizeThatFits:CGSizeZero];
 	labelSize.width = MIN(labelSize.width, _label.bounds.size.width);
 
@@ -31,7 +44,7 @@
 	textFieldFrame.origin.x = _label.frame.origin.x + MAX(kIASKMinLabelWidth, labelSize.width) + kIASKSpacing;
 	if (!_label.text.length)
 		textFieldFrame.origin.x = _label.frame.origin.x;
-	textFieldFrame.size.width = kIASKTableWidth - textFieldFrame.origin.x - _label.frame.origin.x;
+	textFieldFrame.size.width = CGRectGetWidth(self.frame) - 50 - textFieldFrame.origin.x - _label.frame.origin.x;
 	_textField.frame = textFieldFrame;
 }
 

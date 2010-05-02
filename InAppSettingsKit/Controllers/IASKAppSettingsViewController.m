@@ -25,6 +25,7 @@
 #import "IASKSlider.h"
 #import "IASKSpecifier.h"
 #import "IASKSpecifierValuesViewController.h"
+#import "IASKHelper.h"
 
 static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
 static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2;
@@ -52,6 +53,7 @@ static NSString *kIASKCredits = @"Powered by InAppSettingsKit"; // Leave this as
 @synthesize currentFirstResponder;
 @synthesize showCreditsFooter = _showCreditsFooter;
 @synthesize showDoneButton = _showDoneButton;
+@synthesize tableView = _tableView;
 
 #pragma mark accessors
 - (IASKSettingsReader*)settingsReader {
@@ -84,6 +86,19 @@ static NSString *kIASKCredits = @"Powered by InAppSettingsKit"; // Leave this as
         
         // If set to YES, will add a DONE button at the right of the navigation bar
         _showDoneButton = YES;
+    }
+    return self;
+}
+
+- (id)init {
+    if ([super initWithNibName:@"IASKAppSettingsView" bundle:nil]) {
+        // If set to YES, will display credits for InAppSettingsKit creators
+        _showCreditsFooter = YES;
+        
+        // If set to YES, will add a DONE button at the right of the navigation bar
+        _showDoneButton = YES;
+		
+		self.title = NSLocalizedString(@"Settings", @"");
     }
     return self;
 }
@@ -122,7 +137,7 @@ static NSString *kIASKCredits = @"Powered by InAppSettingsKit"; // Leave this as
                                                                                         action:@selector(dismiss:)];
             self.navigationItem.rightBarButtonItem = buttonItem;
             [buttonItem release];
-		} 
+		}
 		self.title = NSLocalizedString(@"Settings", @"");
 	}
 	[super viewWillAppear:animated];
@@ -134,7 +149,7 @@ static NSString *kIASKCredits = @"Powered by InAppSettingsKit"; // Leave this as
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait) || (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown);
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -498,13 +513,15 @@ static NSString *kIASKCredits = @"Powered by InAppSettingsKit"; // Leave this as
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    [textField setTextAlignment:UITextAlignmentRight];
     return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+	if (isPad())
+		return;
+	
 	self.currentFirstResponder = textField;
-
+	
 	viewFrameBeforeAnimation = self.view.frame;
 	
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -526,6 +543,9 @@ static NSString *kIASKCredits = @"Powered by InAppSettingsKit"; // Leave this as
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+	if (isPad())
+		return;
+	
 	self.currentFirstResponder = nil;
 	
     [UIView beginAnimations:nil context:NULL];

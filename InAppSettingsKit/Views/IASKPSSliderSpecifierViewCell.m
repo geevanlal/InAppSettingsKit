@@ -17,14 +17,26 @@
 #import "IASKPSSliderSpecifierViewCell.h"
 #import "IASKSlider.h"
 #import "IASKSettingsReader.h"
+#import "IASKHelper.h"
 
 @implementation IASKPSSliderSpecifierViewCell
+
+-(void) awakeFromNib
+{
+	if (isPad()) {
+		self.backgroundColor = [UIColor colorWithRed:247.0f/255.0f
+											   green:247.0f/255.0f
+												blue:247.0f/255.0f
+											   alpha:1.0f];
+	}
+}
 
 @synthesize slider=_slider, 
             minImage=_minImage, 
             maxImage=_maxImage;
 
 - (void)layoutSubviews {
+	[super layoutSubviews];
 	CGRect sliderFrame      = _slider.frame;
 	sliderFrame.origin.x    = kIASKSliderNoImagesX;
 	sliderFrame.size.width  = kIASKSliderNoImagesWidth;

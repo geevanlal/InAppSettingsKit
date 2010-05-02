@@ -49,6 +49,7 @@
 @property (nonatomic, retain) id currentFirstResponder;
 @property (nonatomic, assign) BOOL showCreditsFooter;
 @property (nonatomic, assign) BOOL showDoneButton;
+@property (nonatomic, retain) UITableView *tableView;
 
 - (IBAction)dismiss:(id)sender;
 
