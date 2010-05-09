@@ -84,6 +84,7 @@
     NSDictionary    *_settingsBundle;
     NSArray         *_dataSource;
     NSBundle        *_bundle;
+	NSString		*_table;
 }
 
 - (id)initWithFile:(NSString*)file;
@@ -99,5 +100,6 @@
 @property (nonatomic, retain) NSString      *path;
 @property (nonatomic, retain) NSDictionary  *settingsBundle;
 @property (nonatomic, retain) NSArray       *dataSource;
+@property (nonatomic, retain) NSString      *table;
 
 @end

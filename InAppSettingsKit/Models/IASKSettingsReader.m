@@ -26,7 +26,8 @@
 
 @synthesize path=_path, 
 settingsBundle=_settingsBundle, 
-dataSource=_dataSource;
+dataSource=_dataSource,
+table=_table;
 
 - (id)init {
 	return [self initWithFile:@"Root"];
@@ -43,6 +44,9 @@ dataSource=_dataSource;
 			[self setPath:[path stringByAppendingPathComponent:[file stringByAppendingString:@".plist"]]];
 			[self setSettingsBundle:[NSDictionary dictionaryWithContentsOfFile:[self path]]];
 		}
+		
+		[self setTable:[[self.path lastPathComponent] stringByDeletingPathExtension]];
+		
         _bundle = [[NSBundle bundleWithPath:path] retain];
         
         if (_settingsBundle) {
@@ -57,6 +61,8 @@ dataSource=_dataSource;
     [_settingsBundle release];
     [_dataSource release];
     [_bundle release];
+	[_table release];
+	
     [super dealloc];
 }
 
@@ -81,7 +87,7 @@ dataSource=_dataSource;
 				[newArray release];
 				sectionCount++;
 			}
-
+			
             IASKSpecifier *newSpecifier = [[IASKSpecifier alloc] initWithSpecifier:specifier];
             [(NSMutableArray*)[dataSource objectAtIndex:sectionCount] addObject:newSpecifier];
             [newSpecifier release];
@@ -127,13 +133,15 @@ dataSource=_dataSource;
 - (NSString*)titleForSection:(NSInteger)section {
     if ([self _sectionHasHeading:section]) {
         NSDictionary *dict = [[[self dataSource] objectAtIndex:section] objectAtIndex:kIASKSectionHeaderIndex];
-        return [_bundle localizedStringForKey:[dict objectForKey:kIASKTitle] value:[dict objectForKey:kIASKTitle] table:@"Root"];
+        return [_bundle localizedStringForKey:[dict objectForKey:kIASKTitle]
+										value:[dict objectForKey:kIASKTitle]
+										table:[self table]];
     }
     return nil;
 }
 
 - (NSString*)titleForStringId:(NSString*)stringId {
-    return [_bundle localizedStringForKey:stringId value:stringId table:@"Root"];
+    return [_bundle localizedStringForKey:stringId value:stringId table:[self table]];
 }
 
 - (NSString*)bundlePath {
